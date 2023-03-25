@@ -60,6 +60,7 @@ struct Entity {
 	long flags;
 	Entity *riding;
 	Entity *next;
+	short Lives;
 };
 
 typedef struct {
@@ -68,4 +69,5 @@ typedef struct {
 	Entity entityHead, *entityTail;
 	int pizzaTotal, pizzaFound;
 	short Timer_set; time_t start, end;
+	time_t elapsed;
 } Stage;

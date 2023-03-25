@@ -30,7 +30,7 @@ void initPlayer(void)
 	stage.entityTail = player;
 
 	player->health = 1;
-
+	player->Lives = 3;
 	pete[0] = loadTexture("gfx/pete01.png");
 	pete[1] = loadTexture("gfx/pete02.png");
 

@@ -21,20 +21,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "common.h"
 
 static void loadTiles(void);
-static void loadMap(const char *filename);
+static void loadMap(const char* filename);
 int isInsideMap(int x, int y);
 
-static SDL_Texture *tiles[MAX_TILES];
-
+static SDL_Texture* tiles[MAX_TILES];
 void initMap(void)
 {
 	memset(&stage.map, 0, sizeof(int) * MAP_WIDTH * MAP_HEIGHT);
-
 	loadTiles();
-
-	loadMap("data/map01.dat");
+	static short Map_Number = 1;
+	char filename[100]; // allocate a buffer to hold the filename
+	if (Map_Number < 10)
+		sprintf(filename, "data/map0%d.dat", Map_Number); // format the filename string using sprintf
+	else
+		sprintf(filename, "data/map%d.dat", Map_Number); // format the filename string using sprintf
+	//loadMap("data/map02.dat");
+	loadMap(filename);
+	if (Map_Number == 2)
+		Map_Number = 1;
+	Map_Number++;
 }
-
 void drawMap(void)
 {
 	int x, y, n, x1, x2, y1, y2, mx, my;
@@ -48,9 +54,9 @@ void drawMap(void)
 	mx = stage.camera.x / TILE_SIZE;
 	my = stage.camera.y / TILE_SIZE;
 
-	for (y = y1 ; y < y2 ; y += TILE_SIZE)
+	for (y = y1; y < y2; y += TILE_SIZE)
 	{
-		for (x = x1 ; x < x2 ; x += TILE_SIZE)
+		for (x = x1; x < x2; x += TILE_SIZE)
 		{
 			if (isInsideMap(mx, my))
 			{
@@ -70,42 +76,39 @@ void drawMap(void)
 		my++;
 	}
 }
-
 static void loadTiles(void)
 {
 	int i;
 	char filename[MAX_FILENAME_LENGTH];
 
-	for (i = 1 ; i <= MAX_TILES ; i++)
+	for (i = 1; i <= MAX_TILES; i++)
 	{
 		sprintf(filename, "gfx/tile%d.png", i);
 
 		tiles[i] = loadTexture(filename);
 	}
 }
-
-static void loadMap(const char *filename)
+static void loadMap(const char* filename)
 {
-	char *data, *p;
+	char* data, * p;
 	int x, y;
 
 	data = readFile(filename);
 
 	p = data;
 
-	for (y = 0 ; y < MAP_HEIGHT ; y++)
+	for (y = 0; y < MAP_HEIGHT; y++)
 	{
-		for (x = 0 ; x < MAP_WIDTH ; x++)
+		for (x = 0; x < MAP_WIDTH; x++)
 		{
 			sscanf(p, "%d", &stage.map[x][y]);
 
-			do {p++;} while (*p != ' ' && *p != '\n');
+			do { p++; } while (*p != ' ' && *p != '\n');
 		}
 	}
 
 	free(data);
 }
-
 int isInsideMap(int x, int y)
 {
 	return x >= 0 && y >= 0 && x < MAP_WIDTH && y < MAP_HEIGHT;

@@ -62,6 +62,10 @@ void drawText(int x, int y, int r, int g, int b, int align, char *format, ...)
 	for (i = 0 ; i < len ; i++)
 	{
 		c = drawTextBuffer[i];
+		
+		if (c >= 'a' && c <= 'z') {
+			c = (c - 32);
+		}
 
 		if (c >= ' ' && c <= 'Z')
 		{
@@ -73,3 +77,4 @@ void drawText(int x, int y, int r, int g, int b, int align, char *format, ...)
 		}
 	}
 }
+

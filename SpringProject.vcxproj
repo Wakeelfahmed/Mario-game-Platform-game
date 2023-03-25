@@ -46,6 +46,16 @@
   <ItemGroup>
     <ResourceCompile Include="SpringProject.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="SDL2\lib\libfreetype-6.dll" />
+    <None Include="SDL2\lib\SDL2_ttf.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="SDL2\lib\SDL2_ttf.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="arial.ttf" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{915FFE90-9825-4966-B508-21658B91E885}</ProjectGuid>
