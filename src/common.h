@@ -13,19 +13,20 @@ extern "C" {
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-
+#include<stdbool.h>
 #include <defs.h>
 #include <structs.h>
 
-
+time_t Jump_PowerUp_start, Speed_PowerUp_start;
+bool Jump_Powerup_on, Speed_PowerUp_on;
+//short Player_Jump_setting = 20;
+//int my_jump_setting = -20;
 char * global_dir;
 App app;
 Entity *player;
 Stage stage;
 Entity *self;
 Entity *Enemy;
-short Player_Jump = 20;
 char *readFile(const char *filename);
 int collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
 int isInsideMap(int x, int y);

@@ -7,6 +7,7 @@ void init_Speed_Powerup(char* line);
 static void Jump_touch(Entity* other);
 static void Speed_touch(Entity* other);
 
+
 void init_Speed_Powerup(char* line)
 {
 	Entity* e;
@@ -16,7 +17,7 @@ void init_Speed_Powerup(char* line)
 	stage.entityTail = e;
 	sscanf(line, "%*s %f %f", &e->x, &e->y);
 	e->health = 1;
-	e->texture = loadTexture("gfx/Speed_PowerUp.png");
+	e->texture = loadTexture("gfx/Jump_PowerUp.png");
 	SDL_QueryTexture(e->texture, NULL, NULL, &e->w, &e->h);
 	e->flags = EF_WEIGHTLESS;
 	e->tick = tick;

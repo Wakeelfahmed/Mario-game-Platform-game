@@ -20,25 +20,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "common.h"
 
-static SDL_Texture *pete[2];
-
+static SDL_Texture* pete[2];
 void initPlayer(void)
 {
 	player = malloc(sizeof(Entity));
 	memset(player, 0, sizeof(Entity));
 	stage.entityTail->next = player;
 	stage.entityTail = player;
-
 	player->health = 1;
 	player->Lives = 3;
 	pete[0] = loadTexture("gfx/pete01.png");
 	pete[1] = loadTexture("gfx/pete02.png");
-
 	player->texture = pete[0];
-
 	SDL_QueryTexture(player->texture, NULL, NULL, &player->w, &player->h);
 }
-
+//short Player_Jump = -20;
 void doPlayer(void)
 {
 	player->dx = 0;
@@ -61,8 +57,11 @@ void doPlayer(void)
 	{
 		player->riding = NULL;
 
-		//player->dy = -50; for more jump
-		player->dy = -20;
+		if (Jump_Powerup_on)
+			player->dy = -30; //for more jump
+		else
+			player->dy = -20;
+		//player->dy = Player_Jump_setting;
 
 		playSound(SND_JUMP, CH_PLAYER);
 	}

@@ -20,7 +20,6 @@ int main()
 
 	int startTime, elapsedTime;
 	int menuChoice = 0; // The player's menu choice
-
 	// Initialize SDL and the game state
 	initSDL();
 	atexit(cleanup);
@@ -156,7 +155,7 @@ int main()
 					then = SDL_GetTicks();
 					stage.start = time(NULL);
 					remainder = 0;
-					player->Lives = Lives_Temp;
+					//player->Lives = Lives_Temp;
 					while (1)
 					{
 						prepareScene();
@@ -174,10 +173,17 @@ int main()
 							Lives_Temp = --player->Lives;
 							//Pizzas_Collected_Temp = stage.pizzaFound;
 						}
+						if (Jump_Powerup_on)
+						{
+							short timetake = stage.end - Jump_PowerUp_start;
+							if (stage.end - Jump_PowerUp_start >= 8)
+								Jump_Powerup_on = 0;
+						}
 					}
 					break;
 				}
 				case SDLK_3:
+				case SDLK_ESCAPE:
 					break;
 				}
 			}
@@ -187,23 +193,15 @@ int main()
 static void capFrameRate(long* then, float* remainder)
 {
 	long wait, frameTime;
-
 	wait = 16 + *remainder;
-
 	*remainder -= (int)*remainder;
-
 	frameTime = SDL_GetTicks() - *then;
-
 	wait -= frameTime;
-
 	if (wait < 1)
 	{
 		wait = 1;
 	}
-
 	SDL_Delay(wait);
-
 	*remainder += 0.667;
-
 	*then = SDL_GetTicks();
 }

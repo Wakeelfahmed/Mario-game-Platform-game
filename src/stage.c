@@ -28,39 +28,26 @@ void initStage(void)
 {
 	app.delegate.logic = logic;
 	app.delegate.draw = draw;
-
 	memset(&stage, 0, sizeof(Stage));
-
 	stage.entityTail = &stage.entityHead;
-
 	initEntities();
-
 	initPlayer();
-
 	initMap();
 }
-
 static void logic(void)
 {
 	doPlayer();
-
 	doEntities();
-
 	doCamera();
 }
-
 static void draw(void)
 {
 	SDL_SetRenderDrawColor(app.renderer, 128, 0, 255, 255);
 	SDL_RenderFillRect(app.renderer, NULL);
-
 	drawMap();
-
 	drawEntities();
-
 	drawHud();
 }
-
 static void drawHud(void)
 {
 	SDL_Rect r;
