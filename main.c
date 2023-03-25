@@ -59,8 +59,10 @@ int main()
 			SDL_RenderPresent(app.renderer);
 			if (event.type == SDL_KEYDOWN)
 			{
+				SDL_GetScancodeFromKey(event.key.keysym.sym);
 				switch (event.key.keysym.sym)
 				{
+				case SDLK_KP_1:
 				case SDLK_1:
 					SDL_RenderClear(app.renderer);
 					drawText(SCREEN_WIDTH / 2, 30, 255, 255, 255, 1, "ENTER YOUR NAME");
@@ -144,70 +146,35 @@ int main()
 							input = false; // exit the loop
 						}
 					}
-
 					drawText(SCREEN_WIDTH / 2, 10, 255, 255, 255, 1, "1. Start Game");
-					short Lives_Temp = 3;
+					short Lives_Temp = 3, Pizzas_Collected_Temp;
 				Restart:
 					atexit(cleanup);
-
 					initGame();
-
 					initStage();
 					stage.Timer_set = 15;
 					then = SDL_GetTicks();
-
 					stage.start = time(NULL);
 					remainder = 0;
 					player->Lives = Lives_Temp;
 					while (1)
 					{
 						prepareScene();
-
 						doInput();
-
 						app.delegate.logic();
-
 						app.delegate.draw();
-
 						presentScene();
-
 						capFrameRate(&then, &remainder);
 						stage.end = time(NULL);
 						stage.elapsed = stage.end - stage.start;
 						if (stage.elapsed >= stage.Timer_set) {
+							if (player->Lives == 0)
+								goto Restart;
+							stage.start = time(NULL);
 							Lives_Temp = --player->Lives;
-							goto Restart;
+							//Pizzas_Collected_Temp = stage.pizzaFound;
 						}
 					}
-
-
-					//stage.start = time(NULL);
-					//while (1)
-					//{
-					//	prepareScene();
-					//
-					//	doInput();
-					//
-					//	app.delegate.logic();
-					//
-					//	app.delegate.draw();
-					//
-					//	presentScene();
-					//
-					//	capFrameRate(&then, &remainder);
-					//	stage.end = time(NULL);
-					//	stage.elapsed = stage.end - stage.start;
-					//	if (stage.elapsed >= stage.Timer_set) {
-					//		player->Lives--;
-					//		//initGame();
-					//		initPlayer();
-					//		stage.pizzaFound = 0;
-					//		//initStage();
-					//		//SDL_StartTextInput();
-					//
-					//		goto Restart;
-					//	}
-					//}
 					break;
 				}
 				case SDLK_3:
@@ -215,142 +182,8 @@ int main()
 				}
 			}
 		}
-
-
-
-		//else if (menuChoice == 1) // New game
-		//{
-		//	// Perform any necessary initialization for a new game
-		//	// ...
-		//	// Go to the game loop
-		//	while (1)
-		//	{
-		//		// Game loop code goes here
-		//		// ...
-
-		//		// Handle input to return to the menu
-		//		while (SDL_PollEvent(&event))
-		//		{
-		//			if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
-		//			{
-		//				menuChoice = 0;
-		//			}
-		//		}
-		//	}
-		//}
-		//else if (menuChoice == 2) // Load game
-		//{
-		//	// Load any saved game state
-		//	// ...
-		//	// Go to the game loop
-		//	while (1)
-		//	{
-		//		// Game loop code goes here
-		//		// ...
-
-		//		// Handle input to return to the menu
-		///*        while (SDL_PollEvent(&event))
-		//		{
-		//			if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
-		//			{
-		//				menuChoice = 0;
-		//			}
-		//		}*/
-		//	}
-		//}
-		//else if (menuChoice == 3) // Quit
-		//{
-		//	break;
-		//}
-
-		//presentScene();
-		//capFrameRate(&then, &remainder);
 	}
-
-	return 0;
 }
-
-
-/*
-int main() {
-	long then;
-	float remainder;
-
-	memset(&app, 0, sizeof(App));
-	app.textureTail = &app.textureHead;
-
-	initSDL();
-
-	atexit(cleanup);
-
-	initGame();
-
-	initStage();
-
-	then = SDL_GetTicks();
-
-	remainder = 0;
-
-
-	SDL_StartTextInput();
-	char name[100] = { 0 };
-	int name_len = 0;
-	bool done = false;
-
-	while (!done) {
-		SDL_Event event;
-		while (SDL_PollEvent(&event)) {
-			switch (event.type) {
-			case SDL_QUIT:
-				done = 1;
-				break;
-			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_RETURN) {
-					done = 1;
-				}
-				else if (event.key.keysym.sym == SDLK_BACKSPACE && name_len > 0) {
-					name[name_len - 1] = '\0';
-					name_len--;
-				}
-				break;
-			case SDL_TEXTINPUT:
-				if (name_len < 99) {
-					strcat(name, event.text.text);
-					name_len++;
-				}
-				break;
-			}
-		}
-	}
-
-	time_t start, end;   int Timer_set = 15;
-	double elapsed;
-	start = time(NULL);
-	while (1)
-	{
-		prepareScene();
-
-		doInput();
-
-		app.delegate.logic();
-
-		app.delegate.draw();
-
-		presentScene();
-
-		capFrameRate(&then, &remainder);
-	end = time(NULL);
-	elapsed = end - start;
-	if (elapsed == Timer_set)
-		exit(1);
-	}
-	printf("Time elapsed: %.2lf seconds\n", elapsed);
-
-	return 0;
-}
-
-*/
-
 static void capFrameRate(long* then, float* remainder)
 {
 	long wait, frameTime;

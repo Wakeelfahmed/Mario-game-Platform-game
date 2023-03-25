@@ -23,6 +23,7 @@
     <ClCompile Include="src\block.c" />
     <ClCompile Include="src\camera.c" />
     <ClCompile Include="src\draw.c" />
+    <ClCompile Include="src\Enemy.c" />
     <ClCompile Include="src\entities.c" />
     <ClCompile Include="src\init.c" />
     <ClCompile Include="src\input.c" />
@@ -31,6 +32,7 @@
     <ClCompile Include="src\pizza.c" />
     <ClCompile Include="src\platform.c" />
     <ClCompile Include="src\player.c" />
+    <ClCompile Include="src\Powerup.c" />
     <ClCompile Include="src\sound.c" />
     <ClCompile Include="src\stage.c" />
     <ClCompile Include="src\text.c" />

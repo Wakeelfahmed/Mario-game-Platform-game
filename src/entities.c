@@ -230,7 +230,6 @@ static void moveToEntities(Entity *e, float dx, float dy)
 		}
 	}
 }
-
 void drawEntities(void)
 {
 	Entity *e;
@@ -240,7 +239,6 @@ void drawEntities(void)
 		blit(e->texture, e->x - stage.camera.x, e->y - stage.camera.y, 0);
 	}
 }
-
 static void loadEnts(const char *filename)
 {
 	char line[MAX_LINE_LENGTH];
@@ -273,7 +271,6 @@ static void loadEnts(const char *filename)
 
 	free(data);
 }
-
 static void addEntFromLine(char *line)
 {
 	char name[MAX_NAME_LENGTH];
@@ -291,6 +288,10 @@ static void addEntFromLine(char *line)
 	else if (strcmp(name, "PIZZA") == 0)
 	{
 		initPizza(line);
+	}
+	else if (strcmp(name, "POWERUP") == 0)
+	{
+		initPowerup(line);
 	}
 	else
 	{
