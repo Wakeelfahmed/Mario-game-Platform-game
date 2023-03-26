@@ -25,21 +25,15 @@ static void tick(void);
 void initPlatform(char *line)
 {
 	Entity *e;
-
 	e = malloc(sizeof(Entity));
 	memset(e, 0, sizeof(Entity));
 	stage.entityTail->next = e;
 	stage.entityTail = e;
-
 	sscanf(line, "%*s %f %f %f %f", &e->sx, &e->sy, &e->ex, &e->ey);
-
 	e->health = 1;
-
 	e->x = e->sx;
 	e->y = e->sy;
-
 	e->tick = tick;
-
 	e->texture = loadTexture("gfx/platform.png");
 	SDL_QueryTexture(e->texture, NULL, NULL, &e->w, &e->h);
 	e->flags = EF_SOLID+EF_WEIGHTLESS+EF_PUSH;

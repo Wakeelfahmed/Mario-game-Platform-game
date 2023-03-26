@@ -65,7 +65,6 @@ static void move(Entity* e)
 static void push(Entity* e, float dx, float dy)
 {
 	moveToWorld(e, dx, dy);
-
 	moveToEntities(e, dx, dy);
 }
 static void moveToWorld(Entity* e, float dx, float dy)
@@ -180,7 +179,6 @@ static void moveToEntities(Entity* e, float dx, float dy)
 				other->y += e->dy;
 				push(other, 0, e->dy);
 			}
-
 			if (e->touch)
 			{
 				e->touch(other);
@@ -246,7 +244,8 @@ static void addEntFromLine(char* line)
 	else if (strcmp(name, "TIMEPOWERUP") == 0)
 		init_Time_Powerup(line);
 	else if (strcmp(name, "ENEMY") == 0)
-		init_Enemy(line);
+		initEnemyPlatform(line);
+		//init_Enemy(line);
 	else
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "Unknown entity '%s'", line);
 

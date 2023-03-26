@@ -25,11 +25,10 @@ static void loadMap(const char* filename);
 int isInsideMap(int x, int y);
 
 static SDL_Texture* tiles[MAX_TILES];
-void initMap(void)
+void initMap(short Map_Number)
 {
 	memset(&stage.map, 0, sizeof(int) * MAP_WIDTH * MAP_HEIGHT);
 	loadTiles();
-	static short Map_Number = 1;
 	char filename[100]; // allocate a buffer to hold the filename
 	if (Map_Number < 10)
 		sprintf(filename, "data/map0%d.dat", Map_Number); // format the filename string using sprintf
@@ -37,9 +36,6 @@ void initMap(void)
 		sprintf(filename, "data/map%d.dat", Map_Number); // format the filename string using sprintf
 	//loadMap("data/map02.dat");
 	loadMap(filename);
-	if (Map_Number == 2)
-		Map_Number = 1;
-	Map_Number++;
 }
 void drawMap(void)
 {
@@ -80,11 +76,9 @@ static void loadTiles(void)
 {
 	int i;
 	char filename[MAX_FILENAME_LENGTH];
-
 	for (i = 1; i <= MAX_TILES; i++)
 	{
 		sprintf(filename, "gfx/tile%d.png", i);
-
 		tiles[i] = loadTexture(filename);
 	}
 }
@@ -92,11 +86,8 @@ static void loadMap(const char* filename)
 {
 	char* data, * p;
 	int x, y;
-
 	data = readFile(filename);
-
 	p = data;
-
 	for (y = 0; y < MAP_HEIGHT; y++)
 	{
 		for (x = 0; x < MAP_WIDTH; x++)
@@ -106,7 +97,6 @@ static void loadMap(const char* filename)
 			do { p++; } while (*p != ' ' && *p != '\n');
 		}
 	}
-
 	free(data);
 }
 int isInsideMap(int x, int y)

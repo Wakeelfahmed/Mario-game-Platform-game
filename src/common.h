@@ -1,3 +1,4 @@
+//#pragma once
 #ifndef COMMON_H_
 #define COMMON_H_
 
@@ -51,6 +52,7 @@ void initPizza(char *line);
 void init_Jump_Powerup(char *line);
 void init_Speed_Powerup(char *line);
 void init_Time_Powerup(char *line);
+void initEnemyPlatform(char *line);
 void init_Enemy(char *line);
 void initPlatform(char *line);
 void initPlayer(void);

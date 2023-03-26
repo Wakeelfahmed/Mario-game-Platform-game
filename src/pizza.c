@@ -33,8 +33,9 @@ static void touch(Entity *other)
 		stage.pizzaFound++;
 		if (stage.pizzaFound == stage.pizzaTotal)
 		{
+			stage.completed = 1;
 			playSound(SND_PIZZA_DONE, CH_PIZZA);
-			exit(1);
+			//exit(1);
 		}
 		else
 		{

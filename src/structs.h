@@ -47,4 +47,5 @@ typedef struct {
 	int pizzaTotal, pizzaFound;
 	short Timer_set; time_t start, end;
 	time_t elapsed;
+	bool completed;
 } Stage;
