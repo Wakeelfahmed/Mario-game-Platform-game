@@ -28,7 +28,7 @@ void initStage(short Map_Number)
 	app.delegate.draw = draw;
 	memset(&stage, 0, sizeof(Stage));
 	stage.entityTail = &stage.entityHead;
-	initEntities();
+	initEntities(Map_Number);
 	initPlayer();
 	initMap(Map_Number);
 }

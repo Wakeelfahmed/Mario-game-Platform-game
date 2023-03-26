@@ -5,9 +5,15 @@ static void moveToWorld(Entity* e, float dx, float dy);
 static void moveToEntities(Entity* e, float dx, float dy);
 static void loadEnts(const char* filename);
 static void addEntFromLine(char* line);
-void initEntities(void)
+void initEntities(short Map_Number)
 {
-	loadEnts("data/ents01.dat");
+	char filename[100]; // allocate a buffer to hold the filename
+	if (Map_Number < 10)
+		sprintf(filename, "data/ents0%d.dat", Map_Number); // format the filename string using sprintf
+	else
+		sprintf(filename, "data/ents%d.dat", Map_Number); // format the filename string using sprintf
+
+	loadEnts(filename, Map_Number);
 }
 void doEntities(void)
 {
@@ -200,15 +206,10 @@ static void loadEnts(const char* filename)
 	char line[MAX_LINE_LENGTH];
 	char* data, * p;
 	int n;
-
 	data = readFile(filename);
-
 	p = data;
-
 	n = 0;
-
 	memset(line, '\0', MAX_LINE_LENGTH);
-
 	while (*p)
 	{
 		if (*p == '\n')
@@ -221,10 +222,8 @@ static void loadEnts(const char* filename)
 		{
 			line[n++] = *p;
 		}
-
 		p++;
 	}
-
 	free(data);
 }
 static void addEntFromLine(char* line)
@@ -244,9 +243,8 @@ static void addEntFromLine(char* line)
 	else if (strcmp(name, "TIMEPOWERUP") == 0)
 		init_Time_Powerup(line);
 	else if (strcmp(name, "ENEMY") == 0)
-		initEnemyPlatform(line);
+		init_Enemy(line);
 		//init_Enemy(line);
 	else
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "Unknown entity '%s'", line);
-
 }

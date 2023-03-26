@@ -2,7 +2,7 @@
 #include<stdbool.h>
 static void tick(void)
 {
-	self->value += 0.01;
+	self->value += 0.1;
 	self->y += sin(self->value);
 }
 static void Enemy_tick(void)
@@ -13,14 +13,15 @@ static void Enemy_tick(void)
 
 		self->dx *= PLATFORM_SPEED;
 		self->dy *= PLATFORM_SPEED;
+		self->texture = loadTexture("gfx/Enemy_right.png");
 	}
-
 	if (abs(self->x - self->ex) < PLATFORM_SPEED && abs(self->y - self->ey) < PLATFORM_SPEED)
 	{
 		calcSlope(self->sx, self->sy, self->x, self->y, &self->dx, &self->dy);
 
 		self->dx *= PLATFORM_SPEED;
 		self->dy *= PLATFORM_SPEED;
+		self->texture = loadTexture("gfx/Enemy_left.png");
 	}
 }
 static void Enemy_touch(Entity* other)
@@ -32,7 +33,7 @@ static void Enemy_touch(Entity* other)
 		playSound(SND_PIZZA, CH_PIZZA);
 	}
 }
-void initEnemyPlatform(char* line)
+void init_Enemy(char* line)
 {
 	Entity* e;
 	e = malloc(sizeof(Entity));
@@ -46,39 +47,9 @@ void initEnemyPlatform(char* line)
 	e->tick = Enemy_tick;
 	e->texture = loadTexture("gfx/Enemy_No_motion.png");
 	SDL_QueryTexture(e->texture, NULL, NULL, &e->w, &e->h);
-	e->flags = EF_SOLID + EF_WEIGHTLESS + EF_PUSH;
+	e->flags = EF_SOLID + EF_WEIGHTLESS;
 	e->touch = Enemy_touch;
 }
-//static void Enenmy_tick(void)
-//{
-//	static short temp;
-//	temp = self->dx;
-//	self->value += 0.01;
-//	if (temp == (self->dx))
-//		self->texture = loadTexture("gfx/Enemy_No_motion.png");
-//	else if (temp < (self->dx))
-//		self->texture = loadTexture("gfx/Enemy_right.png");
-//	else if (temp > (self->dx))
-//		self->texture = loadTexture("gfx/Enemy_left.png");
-//	self->dx += 1 * cos(self->value);
-//}
-
-//void init_Enemy(char* line)
-//{
-//	Entity* e;
-//	e = malloc(sizeof(Entity));
-//	memset(e, 0, sizeof(Entity));
-//	stage.entityTail->next = e;
-//	stage.entityTail = e;
-//	sscanf(line, "%*s %f %f", &e->x, &e->y);
-//	e->health = 1;
-//	e->Entity_Code = 1;
-//	e->texture = loadTexture("gfx/Enemy01.png");
-//	SDL_QueryTexture(e->texture, NULL, NULL, &e->w, &e->h);
-//	e->flags = EF_WEIGHTLESS;
-//	e->tick = Enemy_tick;
-//	e->touch = Enemy_touch;
-//}
 static void Time_touch(Entity* other)
 {
 	if (self->health > 0 && other == player)
@@ -155,9 +126,6 @@ void init_Time_Powerup(char* line)
 	e->health = 1;
 	e->Entity_Code = 1;
 	e->texture = loadTexture("gfx/Time_Powerup.png");
-	if (!e->texture)
-		strcpy(e->Entity_name, "Time");
-	strcpy(e->Entity_name, "Time");
 	SDL_QueryTexture(e->texture, NULL, NULL, &e->w, &e->h);
 	e->flags = EF_WEIGHTLESS;
 	e->tick = tick;

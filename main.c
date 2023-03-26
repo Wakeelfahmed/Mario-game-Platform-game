@@ -38,9 +38,10 @@ Player Player_Profiles[10] = { 0 };
 
 int main()
 {
+	time_t Time_pause = 0;
 	int loop_iterator = 0;
 	for (loop_iterator = 0; loop_iterator < 10; loop_iterator++)
-		Player_Profiles[loop_iterator].Number_of_levels_unlocked = 1;
+		Player_Profiles[loop_iterator].Number_of_levels_unlocked = 2;
 	short Menu_Input, Map_Number = 1;
 	long then;	float remainder;
 	int y = 20;
@@ -126,6 +127,18 @@ int main()
 					app.keyboard[SDL_SCANCODE_ESCAPE] = 0;
 					break;
 				}
+				if (app.keyboard[SDL_SCANCODE_SPACE] == 1) {
+					app.keyboard[SDL_SCANCODE_SPACE] = 0;
+				}
+				if (app.keyboard[SDL_SCANCODE_P] == 1) {//pause game
+					app.keyboard[SDL_SCANCODE_P] = 0;
+					Time_pause = time(NULL);
+					while (!app.keyboard[SDL_SCANCODE_P]) { doInput(); }
+					time_t current_time = time(NULL);
+					stage.start += (current_time - Time_pause);
+					app.keyboard[SDL_SCANCODE_P] = 0;
+					app.keyboard[SDL_SCANCODE_P] = 0;
+				}
 
 				if (stage.completed) {
 					if (Map_Number == 2)
@@ -153,10 +166,10 @@ int main()
 				stage.end = time(NULL);
 				stage.elapsed = stage.end - stage.start;
 				if (stage.elapsed >= stage.Timer_set) {
-					if (player->Lives == 0)
-						goto Restart;
 					stage.start = time(NULL);
 					--player->Lives;
+					if (player->Lives == 0)
+						goto Restart;
 					//Lives_Temp = --player->Lives;
 				}
 				if (Jump_Powerup_on)
@@ -225,8 +238,9 @@ int main()
 			drawText(SCREEN_WIDTH / 2, 32, 255, 255, 255, 1, "\'A\' - Left");
 			drawText(SCREEN_WIDTH / 2, 32 + 29, 255, 255, 255, 1, "\'D\' - Right");
 			drawText(SCREEN_WIDTH / 2, 32 + 29 + 29, 255, 255, 255, 1, "\'I\' - Jump");
-			drawText(SCREEN_WIDTH / 2, 32 + 29 + 29 + 29, 255, 255, 255, 1, "\'Space bar\' - Restart");
-			drawText(SCREEN_WIDTH / 2, 50 + 29 + 29 + 29 + 29, 255, 255, 255, 1, "Press 0 key to exit");
+			drawText(SCREEN_WIDTH / 2, 32 + 29 + 29 + 29, 255, 255, 255, 1, "\'P\' - Pause Game");
+			drawText(SCREEN_WIDTH / 2, 32 + 29 + 29 + 29 + 29, 255, 255, 255, 1, "\'Space bar\' - Restart");
+			drawText(SCREEN_WIDTH / 2, 50 + 29 + 29 + 29 + 29 + 29, 255, 255, 255, 1, "Press 0 key to exit");
 			SDL_RenderPresent(app.renderer);
 			while (get_Input_and_Validate_Input(0, 0)) {}
 			break;
