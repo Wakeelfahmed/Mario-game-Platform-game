@@ -17,8 +17,8 @@ extern "C" {
 #include <defs.h>
 #include <structs.h>
 
-time_t Jump_PowerUp_start, Speed_PowerUp_start;
-bool Jump_Powerup_on, Speed_PowerUp_on;
+time_t Jump_Powerup_start, Speed_Powerup_start, Time_Powerup_start;
+bool Jump_Powerup_on, Speed_Powerup_on, Time_PowerUp_on;
 //short Player_Jump_setting = 20;
 //int my_jump_setting = -20;
 char * global_dir;
@@ -48,6 +48,10 @@ void initFonts(void);
 void initGame(void);
 void initMap(void);
 void initPizza(char *line);
+void init_Jump_Powerup(char *line);
+void init_Speed_Powerup(char *line);
+void init_Time_Powerup(char *line);
+void init_Enemy(char *line);
 void initPlatform(char *line);
 void initPlayer(void);
 void initSDL(void);

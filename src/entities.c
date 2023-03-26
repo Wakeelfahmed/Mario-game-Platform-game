@@ -232,31 +232,22 @@ static void loadEnts(const char* filename)
 static void addEntFromLine(char* line)
 {
 	char name[MAX_NAME_LENGTH];
-
 	sscanf(line, "%s", name);
-
 	if (strcmp(name, "BLOCK") == 0)
-	{
 		initBlock(line);
-	}
 	else if (strcmp(name, "PLATFORM") == 0)
-	{
 		initPlatform(line);
-	}
 	else if (strcmp(name, "PIZZA") == 0)
-	{
 		initPizza(line);
-	}
 	else if (strcmp(name, "JUMPPOWERUP") == 0)
-	{
 		init_Jump_Powerup(line);
-	}
 	else if (strcmp(name, "SPEEDPOWERUP") == 0)
-	{
 		init_Speed_Powerup(line);
-	}
+	else if (strcmp(name, "TIMEPOWERUP") == 0)
+		init_Time_Powerup(line);
+	else if (strcmp(name, "ENEMY") == 0)
+		init_Enemy(line);
 	else
-	{
 		SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN, "Unknown entity '%s'", line);
-	}
+
 }

@@ -1,26 +1,5 @@
-/*
-Copyright (C) 2015-2018 Parallel Realities
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-*/
-
 #include "common.h"
-
-static SDL_Texture* pete[2];
+static SDL_Texture* pete[3];
 void initPlayer(void)
 {
 	player = malloc(sizeof(Entity));
@@ -31,45 +10,45 @@ void initPlayer(void)
 	player->Lives = 3;
 	pete[0] = loadTexture("gfx/pete01.png");
 	pete[1] = loadTexture("gfx/pete02.png");
+	pete[2] = loadTexture("gfx/pete_No_motion.png");
 	player->texture = pete[0];
 	SDL_QueryTexture(player->texture, NULL, NULL, &player->w, &player->h);
 }
-//short Player_Jump = -20;
 void doPlayer(void)
 {
 	player->dx = 0;
 
 	if (app.keyboard[SDL_SCANCODE_A])
 	{
-		player->dx = -PLAYER_MOVE_SPEED;
-
+		if (Speed_Powerup_on)
+			player->dx = -11;
+		else
+			player->dx = -6;
+		//player->dx = -PLAYER_MOVE_SPEED;
 		player->texture = pete[1];
 	}
 
 	if (app.keyboard[SDL_SCANCODE_D])
 	{
-		player->dx = PLAYER_MOVE_SPEED;
-
+		if (Speed_Powerup_on)
+			player->dx = 11;
+		else
+			player->dx = 6;
 		player->texture = pete[0];
 	}
-
 	if (app.keyboard[SDL_SCANCODE_I] && player->isOnGround)
 	{
 		player->riding = NULL;
-
 		if (Jump_Powerup_on)
 			player->dy = -30; //for more jump
 		else
 			player->dy = -20;
 		//player->dy = Player_Jump_setting;
-
 		playSound(SND_JUMP, CH_PLAYER);
 	}
-
 	if (app.keyboard[SDL_SCANCODE_SPACE])
 	{
 		player->x = player->y = 0;
-
 		app.keyboard[SDL_SCANCODE_SPACE] = 0;
 	}
 }

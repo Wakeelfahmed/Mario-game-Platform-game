@@ -17,6 +17,8 @@ typedef struct {
 	Texture textureHead, *textureTail;
 } App;
 struct Entity {
+	char Entity_name[10];
+	int Entity_Code;
 	float x;
 	float y;
 	int w;
